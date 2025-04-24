@@ -1,0 +1,54 @@
+<div id='Problem'>
+    <p id='A'>🅰️</p>
+    <p id='B'>🅱️</p>
+</div>
+<style>
+html {
+    background: url('background.jpg');
+}
+
+body, #Problem p {
+    margin: 0;
+}
+
+#Problem {
+    font-size: 64px;
+    user-select: none;
+}
+
+#Decision {
+    float: inline-end;
+}
+</style>
+<script>
+let intervalId = null;
+let timeoutId = null;
+
+function changeArrow() {
+    Arrow.textContent = Arrow.textContent == '⬅️' ? '↖️' : '⬅️';
+}
+
+function start(a, b, timeout) {
+    if ('Decision' in window) {
+        return;
+    }
+
+    A.innerHTML = a;
+    B.innerHTML = `${b}<span id='Decision'><span id='Arrow'>⬅️</span>🚂</span>`;
+    intervalId = setInterval(changeArrow, 500);
+    timeoutId = setTimeout(() => clearInterval(intervalId), timeout * 1000);
+}
+
+function makeDecision(track) {
+    if ('Decision' in window) {
+        Decision.remove();
+
+        if (track in window) {
+            window[track].innerHTML = '🚂🪦';
+        }
+    }
+    
+    clearTimeout(timeoutId);
+    clearInterval(intervalId);
+}
+</script>
